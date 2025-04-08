@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import ToriNotesCore
 
 final class EditNoteController: UIViewController {
   var viewModel: EditNoteViewModelProtocol!

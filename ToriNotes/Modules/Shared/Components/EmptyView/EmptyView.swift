@@ -5,8 +5,8 @@
 //  Created by Quang Thai on 8/4/25.
 //
 
-import Foundation
 import UIKit
+import ToriNotesCore
 
 final class EmptyView: UIView, NibLoadable {
   var viewModel: EmptyViewModelProtocol! {

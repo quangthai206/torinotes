@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol NoteCellViewModelProtocol {
+public protocol NoteCellViewModelProtocol {
   var titleText: String { get }
   var descriptionText: String { get }
 }

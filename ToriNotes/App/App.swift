@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ToriNotesCore
 
 class App {
   static let shared = App()

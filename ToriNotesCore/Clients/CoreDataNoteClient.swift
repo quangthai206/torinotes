@@ -8,10 +8,10 @@
 import Foundation
 import CoreData
 
-final class CoreDataNoteClient: NoteClientProtocol {
+public final class CoreDataNoteClient: NoteClientProtocol {
   private let coreDataStack: CoreDataStack
   
-  init(coreDataStack: CoreDataStack) {
+  public init(coreDataStack: CoreDataStack) {
     self.coreDataStack = coreDataStack
   }
 }
@@ -19,24 +19,24 @@ final class CoreDataNoteClient: NoteClientProtocol {
 // MARK: - Methods
 
 extension CoreDataNoteClient {
-  func createNote() -> Note {
+  public func createNote() -> Note {
     let note = Note.create(in: coreDataStack.context)
     try? coreDataStack.context.save()
     return note
   }
   
-  func save(note: Note, content: String) {
+  public func save(note: Note, content: String) {
     note.content = content
     note.updatedAt = Date()
     try? coreDataStack.context.save()
   }
   
-  func delete(_ note: Note) {
+  public func delete(_ note: Note) {
     coreDataStack.context.delete(note)
     try? coreDataStack.context.save()
   }
   
-  func makeFetchedResultsController(matching searchText: String? = nil) -> NSFetchedResultsController<Note> {
+  public func makeFetchedResultsController(matching searchText: String? = nil) -> NSFetchedResultsController<Note> {
     let request: NSFetchRequest<Note> = Note.fetchRequest()
     request.sortDescriptors = [NSSortDescriptor(keyPath: \Note.updatedAt, ascending: false)]
     

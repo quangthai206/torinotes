@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol EmptyViewModelProtocol {
+public protocol EmptyViewModelProtocol {
   var emptyIconName: String { get }
   var titleString: String { get }
   var descriptionString: String { get }

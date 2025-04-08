@@ -9,10 +9,10 @@ import Foundation
 import Combine
 import CoreData
 
-final class NoteService: NoteServiceProtocol {
+public final class NoteService: NoteServiceProtocol {
   private let client: NoteClientProtocol
   
-  init(client: NoteClientProtocol) {
+  public init(client: NoteClientProtocol) {
     self.client = client
   }
 }
@@ -20,19 +20,19 @@ final class NoteService: NoteServiceProtocol {
 // MARK: - Methods
 
 extension NoteService {
-  func createEmptyNote() -> Note {
+  public func createEmptyNote() -> Note {
     client.createNote()
   }
   
-  func save(note: Note, content: String) {
+  public func save(note: Note, content: String) {
     client.save(note: note, content: content)
   }
   
-  func delete(_ note: Note) {
+  public func delete(_ note: Note) {
     client.delete(note)
   }
   
-  func makeFetchedResultsController(matching searchText: String? = nil) -> NSFetchedResultsController<Note> {
+  public func makeFetchedResultsController(matching searchText: String? = nil) -> NSFetchedResultsController<Note> {
     client.makeFetchedResultsController(matching: searchText)
   }
 }

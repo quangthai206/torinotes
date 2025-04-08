@@ -8,6 +8,7 @@
 import UIKit
 import Combine
 import CoreData
+import ToriNotesCore
 
 final class NotesListController: UIViewController {
   var viewModel: NotesListViewModelProtocol!

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ToriNotesCore
 
 final class NoteNavCoordinator: NavCoordinator {
   private(set) var noteService: NoteServiceProtocol

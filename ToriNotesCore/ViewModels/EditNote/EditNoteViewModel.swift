@@ -6,14 +6,15 @@
 //
 
 import Foundation
+import Combine
 
-final class EditNoteViewModel: EditNoteViewModelProtocol {
-  @Published var contentText: String = ""
+public final class EditNoteViewModel: EditNoteViewModelProtocol {
+  @Published public var contentText: String = ""
   private var note: Note
   
   private let noteService: NoteServiceProtocol
   
-  init(
+  public init(
     note: Note?,
     noteService: NoteServiceProtocol
   ) {
@@ -31,7 +32,7 @@ final class EditNoteViewModel: EditNoteViewModelProtocol {
 // MARK: - Methods
 
 extension EditNoteViewModel {
-  func saveIfNeeded() {
+  public func saveIfNeeded() {
     let trimmedContent = contentText.trimmingCharacters(in: .whitespacesAndNewlines)
     
     if trimmedContent.isEmpty {

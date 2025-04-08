@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 import Combine
 
-protocol NotesListViewModelProtocol {
+public protocol NotesListViewModelProtocol {
   var notesCount: Int { get }
   var reloadPublisher: AnyPublisher<Void, Never> { get }
   var notesCountTextPublisher: AnyPublisher<String, Never> { get }

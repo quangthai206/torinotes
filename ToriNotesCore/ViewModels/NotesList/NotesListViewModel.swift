@@ -9,8 +9,8 @@ import Foundation
 import Combine
 import CoreData
 
-final class NotesListViewModel: NotesListViewModelProtocol {
-  @Published var searchText: String = ""
+public final class NotesListViewModel: NotesListViewModelProtocol {
+  @Published public var searchText: String = ""
   @Published private(set) var isSearchEmpty: Bool = false
   
   private let reloadSubject = PassthroughSubject<Void, Never>()
@@ -20,7 +20,7 @@ final class NotesListViewModel: NotesListViewModelProtocol {
   
   private var cancellables = Set<AnyCancellable>()
   
-  init(noteService: NoteServiceProtocol) {
+  public init(noteService: NoteServiceProtocol) {
     self.noteService = noteService
     fetchedResultsController = noteService.makeFetchedResultsController(matching: nil)
     try? fetchedResultsController.performFetch()
@@ -54,7 +54,7 @@ private extension NotesListViewModel {
 // MARK: - Methods
 
 extension NotesListViewModel {
-  func deleteNote(at index: Int) {
+  public func deleteNote(at index: Int) {
     guard
       let fetchedObjects = fetchedResultsController.fetchedObjects,
       fetchedObjects.indices.contains(index)
@@ -63,7 +63,7 @@ extension NotesListViewModel {
     noteService.delete(fetchedObjects[index])
   }
   
-  func noteVM(at index: Int) -> NoteCellViewModelProtocol? {
+  public func noteVM(at index: Int) -> NoteCellViewModelProtocol? {
     guard let fetchedObjects = fetchedResultsController.fetchedObjects else {
       return nil
     }
@@ -71,7 +71,7 @@ extension NotesListViewModel {
     return NoteCellViewModel(note: fetchedObjects[index])
   }
   
-  func note(at index: Int) -> Note? {
+  public func note(at index: Int) -> Note? {
     guard let fetchedObjects = fetchedResultsController.fetchedObjects else {
       return nil
     }
@@ -79,7 +79,7 @@ extension NotesListViewModel {
     return fetchedObjects[index]
   }
   
-  func setFetchedResultsDelegate(_ delegate: NSFetchedResultsControllerDelegate) {
+  public func setFetchedResultsDelegate(_ delegate: NSFetchedResultsControllerDelegate) {
     fetchedResultsController.delegate = delegate
   }
   
@@ -103,15 +103,15 @@ extension NotesListViewModel {
 // MARK: - Getters
 
 extension NotesListViewModel {
-  var notesCount: Int { fetchedResultsController.fetchedObjects?.count ?? 0 }
-  var reloadPublisher: AnyPublisher<Void, Never> {
+  public var notesCount: Int { fetchedResultsController.fetchedObjects?.count ?? 0 }
+  public var reloadPublisher: AnyPublisher<Void, Never> {
     reloadSubject.eraseToAnyPublisher()
   }
-  var notesCountTextPublisher: AnyPublisher<String, Never> {
+  public var notesCountTextPublisher: AnyPublisher<String, Never> {
     notesCountTextSubject.eraseToAnyPublisher()
   }
-  var isSearchEmptyPublisher: AnyPublisher<Bool, Never> {
+  public var isSearchEmptyPublisher: AnyPublisher<Bool, Never> {
     $isSearchEmpty.eraseToAnyPublisher()
   }
-  var emptyVM: EmptyViewModelProtocol { SearchEmptyViewModel() }
+  public var emptyVM: EmptyViewModelProtocol { SearchEmptyViewModel() }
 }

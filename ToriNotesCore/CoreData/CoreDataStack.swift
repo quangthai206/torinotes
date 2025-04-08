@@ -8,11 +8,15 @@
 import Foundation
 import CoreData
 
-class CoreDataStack {
-  static let shared = CoreDataStack()
+class PersistentContainer: NSPersistentContainer {}
+
+public final class CoreDataStack {
+  public static let shared = CoreDataStack()
   
-  lazy var persistentContainer: NSPersistentContainer = {
-    let container = NSPersistentContainer(name: "ToriNotes")
+  private init() {}
+  
+  lazy var persistentContainer: PersistentContainer = {
+    let container = PersistentContainer(name: "ToriNotes")
     container.loadPersistentStores { (_, error) in
       if let error {
         fatalError(error.localizedDescription)

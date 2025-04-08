@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ToriNotesCore
 
 final class NoteCell: UITableViewCell {
   static let reuseIdentifier = "NoteCell"
