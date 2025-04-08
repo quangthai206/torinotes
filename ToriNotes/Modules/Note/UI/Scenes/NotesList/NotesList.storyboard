@@ -20,6 +20,10 @@
                                 <rect key="frame" x="0.0" y="48" width="414" height="848"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <view contentMode="scaleToFill" placeholderIntrinsicWidth="374" placeholderIntrinsicHeight="128" translatesAutoresizingMaskIntoConstraints="NO" id="wDX-re-Kpl" customClass="EmptyView" customModule="ToriNotes" customModuleProvider="target">
+                                <rect key="frame" x="20" y="384" width="374" height="128"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="edb-nI-nds">
                                 <rect key="frame" x="0.0" y="812" width="414" height="84"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Y4V-V4-D3p">
@@ -68,20 +72,24 @@
                         <viewLayoutGuide key="safeArea" id="Rmj-9j-8nx"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="wDX-re-Kpl" firstAttribute="leading" secondItem="Rmj-9j-8nx" secondAttribute="leading" constant="20" id="0V8-sp-Vb5"/>
                             <constraint firstItem="ZYn-R0-NIM" firstAttribute="leading" secondItem="Rmj-9j-8nx" secondAttribute="leading" id="2uw-Yl-jgy"/>
                             <constraint firstItem="Rmj-9j-8nx" firstAttribute="trailing" secondItem="ZYn-R0-NIM" secondAttribute="trailing" id="4vO-xx-bA4"/>
                             <constraint firstItem="ZYn-R0-NIM" firstAttribute="top" secondItem="Rmj-9j-8nx" secondAttribute="top" id="Ect-uq-mxw"/>
                             <constraint firstItem="edb-nI-nds" firstAttribute="trailing" secondItem="Rmj-9j-8nx" secondAttribute="trailing" id="H1G-3t-tbE"/>
                             <constraint firstItem="edb-nI-nds" firstAttribute="leading" secondItem="Rmj-9j-8nx" secondAttribute="leading" id="O4e-gb-14I"/>
+                            <constraint firstItem="Rmj-9j-8nx" firstAttribute="trailing" secondItem="wDX-re-Kpl" secondAttribute="trailing" constant="20" id="cv0-O1-L6c"/>
                             <constraint firstItem="edb-nI-nds" firstAttribute="top" secondItem="7Yh-tR-s5D" secondAttribute="top" id="gYO-ve-Xgi"/>
                             <constraint firstItem="7Yh-tR-s5D" firstAttribute="leading" secondItem="Rmj-9j-8nx" secondAttribute="leading" id="jP2-Ms-6O0"/>
                             <constraint firstAttribute="bottom" secondItem="ZYn-R0-NIM" secondAttribute="bottom" id="kfB-ET-WdW"/>
                             <constraint firstItem="Rmj-9j-8nx" firstAttribute="bottom" secondItem="7Yh-tR-s5D" secondAttribute="bottom" constant="10" id="mlc-jk-nrJ"/>
                             <constraint firstAttribute="bottom" secondItem="edb-nI-nds" secondAttribute="bottom" id="msY-ZK-FUE"/>
                             <constraint firstItem="7Yh-tR-s5D" firstAttribute="trailing" secondItem="Rmj-9j-8nx" secondAttribute="trailing" id="oDN-5L-cqf"/>
+                            <constraint firstItem="wDX-re-Kpl" firstAttribute="centerY" secondItem="l7G-wc-8cX" secondAttribute="centerY" id="qg1-V1-Q33"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="emptyView" destination="wDX-re-Kpl" id="ewc-Ru-BoE"/>
                         <outlet property="notesCountLabel" destination="Q2Y-0o-fek" id="ok3-FG-B7J"/>
                         <outlet property="tableView" destination="ZYn-R0-NIM" id="2PT-U0-YES"/>
                     </connections>

@@ -13,7 +13,9 @@ protocol NotesListViewModelProtocol {
   var notesCount: Int { get }
   var reloadPublisher: AnyPublisher<Void, Never> { get }
   var notesCountTextPublisher: AnyPublisher<String, Never> { get }
+  var isSearchEmptyPublisher: AnyPublisher<Bool, Never> { get }
   var searchText: String { get set }
+  var emptyVM: EmptyViewModelProtocol { get }
   
   func deleteNote(at index: Int)
   func noteVM(at index: Int) -> NoteCellViewModelProtocol?

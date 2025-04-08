@@ -17,6 +17,7 @@ final class NotesListController: UIViewController {
   
   @IBOutlet private(set) var tableView: UITableView!
   @IBOutlet private(set) var notesCountLabel: UILabel!
+  @IBOutlet private(set) var emptyView: EmptyView!
   
   private let searchController = UISearchController(searchResultsController: nil)
   private var cancellables = Set<AnyCancellable>()
@@ -48,6 +49,7 @@ private extension NotesListController {
     setupNavigation()
     setupTableView()
     setupSearchController()
+    setupEmptyView()
   }
   
   func setupNavigation() {
@@ -72,6 +74,10 @@ private extension NotesListController {
     searchController.delegate = self
     navigationItem.searchController = searchController
   }
+  
+  func setupEmptyView() {
+    emptyView.viewModel = viewModel.emptyVM
+  }
 }
 
 // MARK: - Bindings
@@ -91,6 +97,14 @@ private extension NotesListController {
       .sink { [weak self] in
         guard let self else { return }
         self.tableView.reloadData()
+      }
+      .store(in: &cancellables)
+    
+    viewModel.isSearchEmptyPublisher
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] isEmpty in
+        guard let self else { return }
+        self.emptyView.isHidden = !isEmpty
       }
       .store(in: &cancellables)
   }

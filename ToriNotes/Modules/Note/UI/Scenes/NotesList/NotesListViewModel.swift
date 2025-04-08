@@ -11,6 +11,7 @@ import CoreData
 
 final class NotesListViewModel: NotesListViewModelProtocol {
   @Published var searchText: String = ""
+  @Published private(set) var isSearchEmpty: Bool = false
   
   private let reloadSubject = PassthroughSubject<Void, Never>()
   private let notesCountTextSubject = CurrentValueSubject<String, Never>("0 Notes")
@@ -95,6 +96,7 @@ extension NotesListViewModel {
     let count = fetchedResultsController.fetchedObjects?.count ?? 0
     let label = "\(count) Note\(count == 1 ? "" : "s")"
     notesCountTextSubject.send(label)
+    isSearchEmpty = notesCount == 0 && !searchText.isEmpty
   }
 }
 
@@ -108,4 +110,8 @@ extension NotesListViewModel {
   var notesCountTextPublisher: AnyPublisher<String, Never> {
     notesCountTextSubject.eraseToAnyPublisher()
   }
+  var isSearchEmptyPublisher: AnyPublisher<Bool, Never> {
+    $isSearchEmpty.eraseToAnyPublisher()
+  }
+  var emptyVM: EmptyViewModelProtocol { SearchEmptyViewModel() }
 }
