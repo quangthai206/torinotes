@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class PersistentContainer: NSPersistentContainer {}
+class PersistentContainer: NSPersistentCloudKitContainer {}
 
 public final class CoreDataStack {
   public static let shared = CoreDataStack()
@@ -17,13 +17,29 @@ public final class CoreDataStack {
   
   lazy var persistentContainer: PersistentContainer = {
     let container = PersistentContainer(name: "ToriNotes")
+    
+    guard let description = container.persistentStoreDescriptions.first else {
+      fatalError("Missing persistent store description")
+    }
+    
+    // Enable CloudKit sync
+    description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(
+      containerIdentifier: "iCloud.com.poc.ToriNotes"
+    )
+    
+    // Enable history and remote sync notifications
+    description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    description.setOption(true as NSNumber, forKey: NSPersistentStoreRemoteChangeNotificationPostOptionKey)
+    
     container.loadPersistentStores { (_, error) in
       if let error {
         fatalError(error.localizedDescription)
       }
     }
+    
     container.viewContext.automaticallyMergesChangesFromParent = true
     container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    
     return container
   }()
   
