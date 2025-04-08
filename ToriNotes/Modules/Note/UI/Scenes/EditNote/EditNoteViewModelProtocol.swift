@@ -7,4 +7,8 @@
 
 import Foundation
 
-protocol EditNoteViewModelProtocol {}
+protocol EditNoteViewModelProtocol {
+  var contentText: String { get set }
+  
+  func saveIfNeeded()
+}

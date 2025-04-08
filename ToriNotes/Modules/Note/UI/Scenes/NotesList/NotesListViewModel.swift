@@ -7,23 +7,24 @@
 
 import Foundation
 import Combine
+import CoreData
 
 final class NotesListViewModel: NotesListViewModelProtocol {
-  var searchText: String = "" {
-    didSet {
-      searchSubject.send(searchText)
-    }
-  }
+  @Published var searchText: String = ""
   
-  @Published private(set) var notes: [Note] = []
-  private var allNotes: [Note] = []
+  private let reloadSubject = PassthroughSubject<Void, Never>()
+  private let notesCountTextSubject = CurrentValueSubject<String, Never>("0 Notes")
+  private var fetchedResultsController: NSFetchedResultsController<Note>
+  private let noteService: NoteServiceProtocol
   
-  private let searchSubject = PassthroughSubject<String, Never>()
   private var cancellables = Set<AnyCancellable>()
   
-  init() {
+  init(noteService: NoteServiceProtocol) {
+    self.noteService = noteService
+    fetchedResultsController = noteService.makeFetchedResultsController(matching: nil)
+    try? fetchedResultsController.performFetch()
+    bindFetchedObjects()
     bindSearch()
-    loadMockNotes()
   }
 }
 
@@ -31,12 +32,19 @@ final class NotesListViewModel: NotesListViewModelProtocol {
 
 private extension NotesListViewModel {
   func bindSearch() {
-    searchSubject
+    $searchText
       .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
       .removeDuplicates()
       .sink { [weak self] keyword in
-        guard let self else { return }
-        self.filterNotes(with: keyword)
+        self?.updateFetchedResultsController(with: keyword)
+      }
+      .store(in: &cancellables)
+  }
+  
+  private func bindFetchedObjects() {
+    NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange)
+      .sink { [weak self] _ in
+        self?.updateNotesCount()
       }
       .store(in: &cancellables)
   }
@@ -45,53 +53,59 @@ private extension NotesListViewModel {
 // MARK: - Methods
 
 extension NotesListViewModel {
-  func fetchNotes() {
-    notes = allNotes
-  }
-  
   func deleteNote(at index: Int) {
-    let noteToDelete = notes[index]
-    allNotes.removeAll { $0.id == noteToDelete.id }
-    filterNotes(with: searchText)
+    guard
+      let fetchedObjects = fetchedResultsController.fetchedObjects,
+      fetchedObjects.indices.contains(index)
+    else { return }
+    
+    noteService.delete(fetchedObjects[index])
   }
   
-  func noteVM(at index: Int) -> NoteCellViewModelProtocol {
-    NoteCellViewModel(note: notes[index])
-  }
-  
-  private func filterNotes(with keyword: String) {
-    if keyword.isEmpty {
-      notes = allNotes
-    } else {
-      notes = allNotes.filter {
-        $0.content.localizedCaseInsensitiveContains(keyword)
-      }
+  func noteVM(at index: Int) -> NoteCellViewModelProtocol? {
+    guard let fetchedObjects = fetchedResultsController.fetchedObjects else {
+      return nil
     }
+    
+    return NoteCellViewModel(note: fetchedObjects[index])
   }
   
-  private func loadMockNotes() {
-    allNotes = [
-      Note(content: "Milk, Eggs, Bread"),
-      Note(content: "Push, Pull, Legs"),
-      Note(content: "Build a notes app in UIKit with MVVM"),
-      Note(content: "Milk, Eggs, Bread"),
-      Note(content: "Push, Pull, Legs"),
-      Note(content: "Build a notes app in UIKit with MVVM"),
-      Note(content: "Milk, Eggs, Bread"),
-      Note(content: "Push, Pull, Legs"),
-      Note(content: "Build a notes app in UIKit with MVVM"),
-      Note(content: "Milk, Eggs, Bread"),
-      Note(content: "Push, Pull, Legs"),
-      Note(content: "Build a notes app in UIKit with MVVM")
-    ]
-    notes = allNotes
+  func note(at index: Int) -> Note? {
+    guard let fetchedObjects = fetchedResultsController.fetchedObjects else {
+      return nil
+    }
+    
+    return fetchedObjects[index]
+  }
+  
+  func setFetchedResultsDelegate(_ delegate: NSFetchedResultsControllerDelegate) {
+    fetchedResultsController.delegate = delegate
+  }
+  
+  private func updateFetchedResultsController(with text: String) {
+    let newFRC = noteService.makeFetchedResultsController(matching: text)
+    newFRC.delegate = fetchedResultsController.delegate
+    try? newFRC.performFetch()
+    fetchedResultsController = newFRC
+    updateNotesCount()
+    reloadSubject.send()
+  }
+  
+  private func updateNotesCount() {
+    let count = fetchedResultsController.fetchedObjects?.count ?? 0
+    let label = "\(count) Note\(count == 1 ? "" : "s")"
+    notesCountTextSubject.send(label)
   }
 }
 
 // MARK: - Getters
 
 extension NotesListViewModel {
-  var notesCount: Int { notes.count }
-  
-  var notesPublisher: Published<[Note]>.Publisher { $notes }
+  var notesCount: Int { fetchedResultsController.fetchedObjects?.count ?? 0 }
+  var reloadPublisher: AnyPublisher<Void, Never> {
+    reloadSubject.eraseToAnyPublisher()
+  }
+  var notesCountTextPublisher: AnyPublisher<String, Never> {
+    notesCountTextSubject.eraseToAnyPublisher()
+  }
 }

@@ -8,6 +8,17 @@
 import UIKit
 
 final class NoteNavCoordinator: NavCoordinator {
+  private(set) var noteService: NoteServiceProtocol
+  
+  init(
+    navRouter: NavRouterProtocol,
+    noteService: NoteServiceProtocol = App.shared.note
+  ) {
+    self.noteService = noteService
+    
+    super.init(navRouter: navRouter)
+  }
+  
   override func start() {
     setRootToNotesListScene()
   }
@@ -17,13 +28,17 @@ final class NoteNavCoordinator: NavCoordinator {
 
 extension NoteNavCoordinator {
   func setRootToNotesListScene() {
-    let vm = NotesListViewModel()
+    let vm = NotesListViewModel(noteService: noteService)
     
     let storyboard = UIStoryboard(name: "NotesList", bundle: nil)
     let vc = storyboard.instantiateViewController(withIdentifier: NotesListController.storyboardID) as! NotesListController
     vc.viewModel = vm
     
-    vc.onAddNoteButtonTap = trigger(type(of: self).pushEditNoteScene)
+    vc.onAddNoteButtonTap = trigger(
+      type(of: self).pushEditNoteScene,
+      passingValue: nil
+    )
+    vc.onEditNote = trigger(type(of: self).pushEditNoteScene)
     
     navRouter.setRoot(vc, animated: true)
   }
@@ -32,8 +47,11 @@ extension NoteNavCoordinator {
 // MARK: - EditNote Scene
 
 extension NoteNavCoordinator {
-  func pushEditNoteScene() {
-    let vm = EditNoteViewModel()
+  func pushEditNoteScene(note: Note?) {
+    let vm = EditNoteViewModel(
+      note: note,
+      noteService: noteService
+    )
     
     let storyboard = UIStoryboard(name: "EditNote", bundle: nil)
     let vc = storyboard.instantiateViewController(withIdentifier: EditNoteController.storyboardID) as! EditNoteController

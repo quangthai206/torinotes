@@ -6,13 +6,18 @@
 //
 
 import Foundation
+import CoreData
+import Combine
 
 protocol NotesListViewModelProtocol {
   var notesCount: Int { get }
-  var notesPublisher: Published<[Note]>.Publisher { get }
+  var reloadPublisher: AnyPublisher<Void, Never> { get }
+  var notesCountTextPublisher: AnyPublisher<String, Never> { get }
   var searchText: String { get set }
   
-  func fetchNotes()
   func deleteNote(at index: Int)
-  func noteVM(at index: Int) -> NoteCellViewModelProtocol
+  func noteVM(at index: Int) -> NoteCellViewModelProtocol?
+  func note(at index: Int) -> Note?
+  
+  func setFetchedResultsDelegate(_ delegate: NSFetchedResultsControllerDelegate)
 }

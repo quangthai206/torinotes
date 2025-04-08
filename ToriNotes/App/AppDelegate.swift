@@ -13,6 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var appCoordinator: AppCoordinator!
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    App.shared.bootstrap(with: application, launchOptions: launchOptions)
+    
     // Set global theme
     UINavigationBar.appearance().shadowImage = UIImage()
     UINavigationBar.appearance().tintColor = .orange

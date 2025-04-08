@@ -30,10 +30,22 @@ extension EditNoteController {
     bind()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    navigationItem.largeTitleDisplayMode = .never
+  }
+  
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     
     textView.becomeFirstResponder()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    viewModel.saveIfNeeded()
   }
 }
 
@@ -41,7 +53,11 @@ extension EditNoteController {
 
 private extension EditNoteController {
   func setup() {
-    
+    setupTextView()
+  }
+  
+  func setupTextView() {
+    textView.text = viewModel.contentText
   }
 }
 
@@ -60,6 +76,12 @@ private extension EditNoteController {
       .receive(on: RunLoop.main)
       .sink { [weak self] _ in
         self?.navigationItem.rightBarButtonItem = nil
+      }
+      .store(in: &cancellables)
+    
+    textView.textPublisher
+      .sink { [weak self] text in
+        self?.viewModel.contentText = text
       }
       .store(in: &cancellables)
   }

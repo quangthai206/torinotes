@@ -7,11 +7,13 @@
 
 import UIKit
 import Combine
+import CoreData
 
 final class NotesListController: UIViewController {
   var viewModel: NotesListViewModelProtocol!
   
   var onAddNoteButtonTap: VoidResult?
+  var onEditNote: SingleResult<Note>?
   
   @IBOutlet private(set) var tableView: UITableView!
   @IBOutlet private(set) var notesCountLabel: UILabel!
@@ -28,11 +30,13 @@ extension NotesListController {
     
     setup()
     bind()
+    viewModel.setFetchedResultsDelegate(self)
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     
+    navigationItem.largeTitleDisplayMode = .always
     navigationController?.navigationBar.sizeToFit()
   }
 }
@@ -49,7 +53,6 @@ private extension NotesListController {
   func setupNavigation() {
     title = "ToriNotes"
     navigationController?.navigationBar.prefersLargeTitles = true
-    navigationItem.largeTitleDisplayMode = .always
   }
   
   func setupTableView() {
@@ -75,11 +78,19 @@ private extension NotesListController {
 
 private extension NotesListController {
   func bind() {
-    viewModel.notesPublisher
+    viewModel.notesCountTextPublisher
       .receive(on: DispatchQueue.main)
-      .sink { [weak self] notes in
-        self?.tableView.reloadData()
-        self?.notesCountLabel.text = "\(notes.count) Notes"
+      .sink { [weak self] text in
+        guard let self else { return }
+        self.notesCountLabel.text = text
+      }
+      .store(in: &cancellables)
+    
+    viewModel.reloadPublisher
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] in
+        guard let self else { return }
+        self.tableView.reloadData()
       }
       .store(in: &cancellables)
   }
@@ -91,6 +102,48 @@ private extension NotesListController {
   @IBAction
   func addNoteButtonTapped(_ sender: Any) {
     onAddNoteButtonTap?()
+  }
+}
+
+extension NotesListController: NSFetchedResultsControllerDelegate {
+  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    tableView.beginUpdates()
+  }
+  
+  func controller(
+    _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+    didChange anObject: Any,
+    at indexPath: IndexPath?,
+    for type: NSFetchedResultsChangeType,
+    newIndexPath: IndexPath?
+  ) {
+    switch type {
+    case .insert:
+      if let newIndexPath {
+        tableView.insertRows(at: [newIndexPath], with: .automatic)
+      }
+    case .delete:
+      if let indexPath {
+        tableView.deleteRows(at: [indexPath], with: .automatic)
+      }
+    case .update:
+      if let indexPath,
+         let cell = tableView.cellForRow(at: indexPath) as? NoteCell {
+        let vm = viewModel.noteVM(at: indexPath.row)
+        cell.viewModel = vm
+      }
+    case .move:
+      if let indexPath,
+         let newIndexPath {
+        tableView.moveRow(at: indexPath, to: newIndexPath)
+      }
+    @unknown default:
+      break
+    }
+  }
+  
+  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    tableView.endUpdates()
   }
 }
 
@@ -123,7 +176,10 @@ extension NotesListController: UITableViewDataSource, UITableViewDelegate {
     _ tableView: UITableView,
     didSelectRowAt indexPath: IndexPath
   ) {
-    // TODO: Navigate to edit note scene
+    guard let note = viewModel.note(at: indexPath.row) else {
+      return
+    }
+    onEditNote?(note)
   }
   
   func tableView(
