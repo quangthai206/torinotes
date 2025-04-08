@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Edit Note Controller-->
+        <scene sceneID="Ydw-XX-I5K">
+            <objects>
+                <viewController storyboardIdentifier="EditNoteController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5hi-2W-uC6" customClass="EditNoteController" customModule="ToriNotes" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="l7G-wc-8cX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Oor-Zj-Ydj">
+                                <rect key="frame" x="20" y="48" width="374" height="848"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Rmj-9j-8nx"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Oor-Zj-Ydj" firstAttribute="leading" secondItem="Rmj-9j-8nx" secondAttribute="leading" constant="20" id="RF8-sw-1A1"/>
+                            <constraint firstItem="Oor-Zj-Ydj" firstAttribute="top" secondItem="Rmj-9j-8nx" secondAttribute="top" id="h1W-63-8tT"/>
+                            <constraint firstAttribute="bottom" secondItem="Oor-Zj-Ydj" secondAttribute="bottom" id="leH-0e-aAs"/>
+                            <constraint firstItem="Rmj-9j-8nx" firstAttribute="trailing" secondItem="Oor-Zj-Ydj" secondAttribute="trailing" constant="20" id="ndw-6X-J7K"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textView" destination="Oor-Zj-Ydj" id="HcQ-zI-igp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EDi-ey-zgy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-130" y="-50"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

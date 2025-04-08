@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class BaseCoordinator: CoordinatorProtocol {
+class BaseCoordinator: CoordinatorProtocol, TriggerableProtocol {
   var cancellable: Set<AnyCancellable> = []
   var children: [CoordinatorProtocol] = []
   

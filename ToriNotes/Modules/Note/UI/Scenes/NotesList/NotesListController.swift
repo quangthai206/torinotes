@@ -11,6 +11,8 @@ import Combine
 final class NotesListController: UIViewController {
   var viewModel: NotesListViewModelProtocol!
   
+  var onAddNoteButtonTap: VoidResult?
+  
   @IBOutlet private(set) var tableView: UITableView!
   @IBOutlet private(set) var notesCountLabel: UILabel!
   
@@ -47,7 +49,6 @@ private extension NotesListController {
   func setupNavigation() {
     title = "ToriNotes"
     navigationController?.navigationBar.prefersLargeTitles = true
-    navigationController?.navigationBar.shadowImage = UIImage()
     navigationItem.largeTitleDisplayMode = .always
   }
   
@@ -89,7 +90,7 @@ private extension NotesListController {
 private extension NotesListController {
   @IBAction
   func addNoteButtonTapped(_ sender: Any) {
-    // TODO: Navigate to add note scene
+    onAddNoteButtonTap?()
   }
 }
 

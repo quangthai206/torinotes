@@ -13,6 +13,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var appCoordinator: AppCoordinator!
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    // Set global theme
+    UINavigationBar.appearance().shadowImage = UIImage()
+    UINavigationBar.appearance().tintColor = .orange
+    UITextView.appearance().tintColor = .orange
+    
     let window = UIWindow(frame: UIScreen.main.bounds)
     self.window = window
     
