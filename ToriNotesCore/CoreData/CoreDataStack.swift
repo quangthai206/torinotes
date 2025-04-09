@@ -52,4 +52,26 @@ public final class CoreDataStack {
       try? context.save()
     }
   }
+  
+  // In-Memory Core Data Stack for Testing
+  public static func inMemory() -> CoreDataStack {
+    let container = PersistentContainer(name: "ToriNotes")
+    let description = NSPersistentStoreDescription()
+    description.type = NSInMemoryStoreType
+    
+    container.persistentStoreDescriptions = [description]
+    
+    container.loadPersistentStores { (_, error) in
+      if let error = error {
+        fatalError("Failed to load in-memory Core Data store: \(error)")
+      }
+    }
+    
+    container.viewContext.automaticallyMergesChangesFromParent = true
+    container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+    
+    let stack = CoreDataStack()
+    stack.persistentContainer = container
+    return stack
+  }
 }

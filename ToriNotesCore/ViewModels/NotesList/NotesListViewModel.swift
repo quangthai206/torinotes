@@ -34,6 +34,7 @@ public final class NotesListViewModel: NotesListViewModelProtocol {
 private extension NotesListViewModel {
   func bindSearch() {
     $searchText
+      .dropFirst()
       .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
       .removeDuplicates()
       .sink { [weak self] keyword in
@@ -45,6 +46,7 @@ private extension NotesListViewModel {
   private func bindFetchedObjects() {
     NotificationCenter.default.publisher(for: .NSManagedObjectContextObjectsDidChange)
       .sink { [weak self] _ in
+        try? self?.fetchedResultsController.performFetch()
         self?.updateNotesCount()
       }
       .store(in: &cancellables)

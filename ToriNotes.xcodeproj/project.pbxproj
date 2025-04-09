@@ -9,10 +9,18 @@
 /* Begin PBXBuildFile section */
 		271980372DA590AA00F05A6E /* ToriNotesCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271980312DA590AA00F05A6E /* ToriNotesCore.framework */; };
 		271980382DA590AA00F05A6E /* ToriNotesCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 271980312DA590AA00F05A6E /* ToriNotesCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		271980F22DA6150B00F05A6E /* ToriNotesCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271980312DA590AA00F05A6E /* ToriNotesCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		271980352DA590AA00F05A6E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 274C25B12DA41D580099AA6B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 271980302DA590AA00F05A6E;
+			remoteInfo = ToriNotesCore;
+		};
+		271980F32DA6150B00F05A6E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 274C25B12DA41D580099AA6B /* Project object */;
 			proxyType = 1;
@@ -37,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		271980312DA590AA00F05A6E /* ToriNotesCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ToriNotesCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		271980EE2DA6150B00F05A6E /* ToriNotesCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToriNotesCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		274C25B92DA41D580099AA6B /* ToriNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToriNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -66,6 +75,11 @@
 			path = ToriNotesCore;
 			sourceTree = "<group>";
 		};
+		271980EF2DA6150B00F05A6E /* ToriNotesCoreTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ToriNotesCoreTests;
+			sourceTree = "<group>";
+		};
 		274C25BB2DA41D580099AA6B /* ToriNotes */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -81,6 +95,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		271980EB2DA6150B00F05A6E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				271980F22DA6150B00F05A6E /* ToriNotesCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +122,7 @@
 			children = (
 				274C25BB2DA41D580099AA6B /* ToriNotes */,
 				271980322DA590AA00F05A6E /* ToriNotesCore */,
+				271980EF2DA6150B00F05A6E /* ToriNotesCoreTests */,
 				274C25BA2DA41D580099AA6B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,6 +132,7 @@
 			children = (
 				274C25B92DA41D580099AA6B /* ToriNotes.app */,
 				271980312DA590AA00F05A6E /* ToriNotesCore.framework */,
+				271980EE2DA6150B00F05A6E /* ToriNotesCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -149,6 +173,29 @@
 			productReference = 271980312DA590AA00F05A6E /* ToriNotesCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		271980ED2DA6150B00F05A6E /* ToriNotesCoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 271980F52DA6150B00F05A6E /* Build configuration list for PBXNativeTarget "ToriNotesCoreTests" */;
+			buildPhases = (
+				271980EA2DA6150B00F05A6E /* Sources */,
+				271980EB2DA6150B00F05A6E /* Frameworks */,
+				271980EC2DA6150B00F05A6E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				271980F42DA6150B00F05A6E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				271980EF2DA6150B00F05A6E /* ToriNotesCoreTests */,
+			);
+			name = ToriNotesCoreTests;
+			packageProductDependencies = (
+			);
+			productName = ToriNotesCoreTests;
+			productReference = 271980EE2DA6150B00F05A6E /* ToriNotesCoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		274C25B82DA41D580099AA6B /* ToriNotes */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 274C25CC2DA41D590099AA6B /* Build configuration list for PBXNativeTarget "ToriNotes" */;
@@ -186,6 +233,9 @@
 					271980302DA590AA00F05A6E = {
 						CreatedOnToolsVersion = 16.2;
 					};
+					271980ED2DA6150B00F05A6E = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					274C25B82DA41D580099AA6B = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -207,12 +257,20 @@
 			targets = (
 				274C25B82DA41D580099AA6B /* ToriNotes */,
 				271980302DA590AA00F05A6E /* ToriNotesCore */,
+				271980ED2DA6150B00F05A6E /* ToriNotesCoreTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2719802F2DA590AA00F05A6E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		271980EC2DA6150B00F05A6E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -236,6 +294,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		271980EA2DA6150B00F05A6E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		274C25B52DA41D580099AA6B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -250,6 +315,11 @@
 			isa = PBXTargetDependency;
 			target = 271980302DA590AA00F05A6E /* ToriNotesCore */;
 			targetProxy = 271980352DA590AA00F05A6E /* PBXContainerItemProxy */;
+		};
+		271980F42DA6150B00F05A6E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 271980302DA590AA00F05A6E /* ToriNotesCore */;
+			targetProxy = 271980F32DA6150B00F05A6E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -323,6 +393,38 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		271980F62DA6150B00F05A6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.poc.ToriNotesCoreTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		271980F72DA6150B00F05A6E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.poc.ToriNotesCoreTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -511,6 +613,15 @@
 			buildConfigurations = (
 				2719803A2DA590AA00F05A6E /* Debug */,
 				2719803B2DA590AA00F05A6E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		271980F52DA6150B00F05A6E /* Build configuration list for PBXNativeTarget "ToriNotesCoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				271980F62DA6150B00F05A6E /* Debug */,
+				271980F72DA6150B00F05A6E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
