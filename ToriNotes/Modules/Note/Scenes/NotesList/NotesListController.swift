@@ -142,15 +142,17 @@ extension NotesListController: NSFetchedResultsControllerDelegate {
         tableView.deleteRows(at: [indexPath], with: .automatic)
       }
     case .update:
-      if let indexPath,
-         let cell = tableView.cellForRow(at: indexPath) as? NoteCell {
-        let vm = viewModel.noteVM(at: indexPath.row)
-        cell.viewModel = vm
+      if let indexPath {
+        tableView.reloadRows(at: [indexPath], with: .automatic)
       }
     case .move:
       if let indexPath,
          let newIndexPath {
         tableView.moveRow(at: indexPath, to: newIndexPath)
+        
+        DispatchQueue.main.async { [weak self] in
+          self?.tableView.reloadRows(at: [newIndexPath], with: .automatic)
+        }
       }
     @unknown default:
       break
