@@ -55,10 +55,15 @@ extension EditNoteController {
 private extension EditNoteController {
   func setup() {
     setupTextView()
+    configureAccessibilityIdentifiers()
   }
   
   func setupTextView() {
     textView.text = viewModel.contentText
+  }
+  
+  func configureAccessibilityIdentifiers() {
+    textView.accessibilityIdentifier = "editNoteTextView"
   }
 }
 

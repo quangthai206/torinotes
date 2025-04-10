@@ -19,6 +19,7 @@ final class NotesListController: UIViewController {
   @IBOutlet private(set) var tableView: UITableView!
   @IBOutlet private(set) var notesCountLabel: UILabel!
   @IBOutlet private(set) var emptyView: EmptyView!
+  @IBOutlet private(set) var addNoteButton: UIButton!
   
   private let searchController = UISearchController(searchResultsController: nil)
   private var cancellables = Set<AnyCancellable>()
@@ -51,6 +52,7 @@ private extension NotesListController {
     setupTableView()
     setupSearchController()
     setupEmptyView()
+    configureAccessibilityIdentifiers()
   }
   
   func setupNavigation() {
@@ -78,6 +80,10 @@ private extension NotesListController {
   
   func setupEmptyView() {
     emptyView.viewModel = viewModel.emptyVM
+  }
+  
+  func configureAccessibilityIdentifiers() {
+    addNoteButton.accessibilityIdentifier = "notesListAddButton"
   }
 }
 
